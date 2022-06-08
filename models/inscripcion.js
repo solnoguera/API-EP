@@ -1,9 +1,11 @@
-let alumno = require("./alumno");
-let materia = require("./materia")("use strict");
+//let alumno = require("./alumno");
+//let materia = require("./materia")
+("use strict");
 module.exports = (sequelize, DataTypes) => {
   const inscripcion = sequelize.define(
     "inscripcion",
     {
+
       id_alumno: DataTypes.INTEGER,
       id_materia: DataTypes.INTEGER,
       comision: DataTypes.INTEGER,
@@ -17,12 +19,12 @@ module.exports = (sequelize, DataTypes) => {
     /* associations */
     inscripcion.belongsTo(models.alumno, {
       as: "alumno-relacionado",
-      foreignKey: "id",
+      foreignKey: "id_alumno",
     });
 
     inscripcion.belongsTo(models.materia, {
       as: "materia-relacionada",
-      foreignKey: "id",
+      foreignKey: "id_materia",
     });
   };
 

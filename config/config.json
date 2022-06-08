@@ -1,24 +1,24 @@
 {
   "development": {
     "username": "root",
-    "password": "sol123",
-    "database": "EP",
+    "password": "root",
+    "database": "EPDOS",
     "host": "localhost",
     "dialect": "mariadb",
     "operatorsAliases": false
   },
   "test": {
     "username": "root",
-    "password": "sol123",
-    "database": "EP",
+    "password": "root",
+    "database": "EPDOS",
     "host": "localhost",
     "dialect": "mariadb",
     "operatorsAliases": false
   },
   "production": {
     "username": "root",
-    "password": "sol123",
-    "database": "EP",
+    "password": "root",
+    "database": "EPDOS",
     "host": "localhost",
     "dialect": "mariadb",
     "operatorsAliases": false
