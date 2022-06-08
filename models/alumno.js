@@ -1,25 +1,27 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const materia = sequelize.define(
-    "materia",
+  const alumno = sequelize.define(
+    "alumno",
     {
       nombre: DataTypes.STRING,
+      apellido: DataTypes.STRING,
+      email: DataTypes.STRING,
+      dni: DataTypes.INTEGER,
       id_carrera: DataTypes.INTEGER,
     },
     {}
   );
-  /**
-  materia.associate = function (models) {
+  alumno.associate = function (models) {
     // associations can be defined here
-
-    materia.belongsTo(
+    alumno.belongsTo(
       models.carrera, // modelo al que pertenece
       {
         as: "carrera-relacionada", // nombre de mi relacion
         foreignKey: "id_carrera", // campo con el que voy a igualar
       }
     );
-     materia.belongsToMany(models.alumno, { through: models.inscripcion }); 
-  };*/
-  return materia;
+
+    // alumno.belongsToMany(models.materia, { through: models.inscripcion });
+  };
+  return alumno;
 };
