@@ -36,9 +36,7 @@ router.get("/", (req, res) => {
     .then((inscripcion) => {
       return res.send(inscripcion);
     })
-    .catch((error) => {
-      return res.sendStatus(500).send({ error });
-    });
+    .catch((error) => res.sendStatus(500).send({ error }));
 });
 
 router.post("/", (req, res) => {
@@ -51,15 +49,17 @@ router.post("/", (req, res) => {
       fechaInscripcion: req.body.fechaInscripcion,
     })
     .then((inscripcion) => {
-      return res.status(201).send({
+      res.statusCode = 201;
+      res.send({
         status: "Inscripcion creada exitosamente",
         id: inscripcion.id,
       });
     })
     .catch((error) => {
-      return res
-        .sendStatus(500)
-        .send(`Error al intentar insertar en la base de datos: ${error}`);
+      res.statusCode = 500;
+      res.send({
+        msg: `Error al intentar insertar en la base de datos: ${error}`,
+      });
     });
 });
 
