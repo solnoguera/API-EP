@@ -21,7 +21,7 @@ a través del orm sequelize, se realizaron migraciones a la base de datos y se u
 
 - **Registro de Usuarios:** A través del enpoint _/usuario/registrar_ podemos registrar un nuevo usuario, el mail debe ser unico, de lo contrario responde que ya está registrado en el sistema. Devuelve el token para utilizar dentro de Authorization en los otros endpoints.
 
-- **Login de Usuarios:** A través del enpoint _/usuario/login_ podemos loguearnos con nuestro usuario y contraseña, si los datos están correctos se devolverá el token para consumir el resto de los endpoints, de lo contrario devuelve 404 Unauthorized.
+- **Login de Usuarios:** A través del enpoint _/usuario/login_ podemos loguearnos con nuestro usuario y contraseña, si los datos están correctos se devolverá el token para consumir el resto de los endpoints, de lo contrario devuelve 401 Unauthorized.
 
 - **Contraseñas Encriptadas:** Al crear un nuevo usuario con email y contraseña, la contraseña persistirá en nuestra base de datos de manera encriptada, para prevalecer la seguridad del usuario. Cuando se consuma el endpoint _Get All Usuarios_, se devolverán los datos del usuario con las contraseñas encriptadas.
 
