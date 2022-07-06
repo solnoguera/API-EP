@@ -1,9 +1,17 @@
-var express = require("express");
-var router = express.Router();
-var models = require("../models");
+require("dotenv").config();
+const express = require("express");
+const router = express.Router();
+const models = require("../models");
 const authServices = require("../services/authService");
 
 router.post("/registrar", (req, res) => {
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (req.headers.adminpassword !== adminPassword) {
+    return res.status(401).send({
+      message:
+        "Te falta el header AdminPassword o la contraseña proporcionada es incorrecta.",
+    });
+  }
   const token = authServices.generarJwt(req.body.email);
   const existeElUsuario = findUsuario(req.body.email);
 
@@ -73,24 +81,24 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
-  try {
-    const token = req.headers.authorization.split(" ")[1];
-    const id = authServices.verificarJwt(token);
-    const usuario = await models.usuario.findOne({
-      attributes: ["id", "nombre"],
-      where: {
-        id,
-      },
-    });
-    res.json(usuario);
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
-      message: error,
-    });
-  }
-});
+// router.get("/", async (req, res) => {
+//   try {
+//     const token = req.headers.authorization.split(" ")[1];
+//     const id = authServices.verificarJwt(token);
+//     const usuario = await models.usuario.findOne({
+//       attributes: ["id", "nombre"],
+//       where: {
+//         id,
+//       },
+//     });
+//     res.json(usuario);
+//   } catch (error) {
+//     res.status(500).json({
+//       status: "error",
+//       message: error,
+//     });
+//   }
+// });
 
 const findUsuario = (email) => {
   return models.usuario.findOne({

@@ -4,7 +4,6 @@ const SECRET_KEY = "secretKey";
 const models = require("../models");
 
 const generarJwt = (data) => {
-  console.log("HOLA");
   return jwt.sign(data, SECRET_KEY);
 };
 
@@ -20,12 +19,12 @@ const compararClaves = (clave, claveEncriptada) => {
   return bcrypt.compareSync(clave, claveEncriptada);
 };
 
-const getById = async (id) => {
+const getByEmail = async (email) => {
   try {
     const usuario = await models.usuario.findOne({
-      attributes: ["id", "nombre", "rol"],
+      attributes: ["id", "nombre"],
       where: {
-        id,
+        email,
       },
     });
     return usuario;
@@ -39,6 +38,6 @@ const authServices = {
   verificarJwt,
   encriptarClave,
   compararClaves,
-  getById,
+  getByEmail,
 };
 module.exports = authServices;

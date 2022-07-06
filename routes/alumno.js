@@ -1,8 +1,11 @@
-var express = require("express");
-var router = express.Router();
-var models = require("../models");
+const express = require("express");
+const router = express.Router();
+const models = require("../models");
+const autenticacion = require("../middlewares/autentication");
 
-router.get("/", (req, res) => {
+router.get("/", autenticacion, (req, res) => {
+  const limit = req.query.limit;
+  const offset = req.query.offset;
   models.alumno
     .findAll({
       attributes: ["id", "dni", "nombre", "apellido", "email", "id_carrera"],
@@ -13,6 +16,8 @@ router.get("/", (req, res) => {
           attributes: ["nombre"],
         },
       ],
+      limit: limit ? parseInt(limit) : null,
+      offset: offset ? parseInt(offset) : null,
     })
     .then((alumno) => res.send(alumno))
     .catch((error) => {
@@ -20,7 +25,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", autenticacion, (req, res) => {
   models.alumno
     .create({
       nombre: req.body.nombre,
@@ -51,7 +56,7 @@ const findAlumno = (id, { onSuccess, onNotFound, onError }) => {
     .catch(() => onError());
 };
 
-router.get("/:id", (req, res) => {
+router.get("/:id", autenticacion, (req, res) => {
   findAlumno(req.params.id, {
     onSuccess: (alumno) => res.send(alumno),
     onNotFound: () => res.sendStatus(404),
@@ -59,7 +64,7 @@ router.get("/:id", (req, res) => {
   });
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", autenticacion, (req, res) => {
   const onSuccess = (alumno) =>
     alumno
       .update(
@@ -89,7 +94,7 @@ router.put("/:id", (req, res) => {
   });
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", autenticacion, (req, res) => {
   const onSuccess = (alumno) =>
     alumno
       .destroy()

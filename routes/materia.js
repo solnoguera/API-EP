@@ -1,22 +1,16 @@
-var express = require("express");
-var router = express.Router();
-var models = require("../models");
+const express = require("express");
+const router = express.Router();
+const models = require("../models");
+const autenticacion = require("../middlewares/autentication");
 
-router.get("/", (req, res) => {
-  console.log("Esto es un mensaje para ver en consola");
+router.get("/", autenticacion, (req, res) => {
+  const limit = req.query.limit;
+  const offset = req.query.offset;
   models.materia
     .findAll({
       attributes: ["id", "nombre", "id_carrera"],
-      /////// / /* se agrega la asociacion
-      /**
-      include: [
-        {
-          as: "carrera-relacionada",
-          model: models.carrera,
-          attributes: ["id", "nombre"],
-        },
-      ], */
-      ////////////////////////////////
+      limit: limit ? parseInt(limit) : null,
+      offset: offset ? parseInt(offset) : null,
     })
     .then((materia) => res.send(materia))
     .catch((err) => {
@@ -25,7 +19,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", autenticacion, (req, res) => {
   models.materia
     .create({ nombre: req.body.nombre, id_carrera: req.body.id_carrera })
     .then((materia) => res.status(201).send({ id: materia.id }))
@@ -51,7 +45,7 @@ const findMateria = (id, { onSuccess, onNotFound, onError }) => {
     .catch(() => onError());
 };
 
-router.get("/:id", (req, res) => {
+router.get("/:id", autenticacion, (req, res) => {
   findMateria(req.params.id, {
     onSuccess: (materia) => res.send(materia),
     onNotFound: () => res.sendStatus(404),
@@ -59,7 +53,7 @@ router.get("/:id", (req, res) => {
   });
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", autenticacion, (req, res) => {
   const onSuccess = (materia) =>
     materia
       .update({ nombre: req.body.nombre }, { fields: ["nombre"] })
@@ -83,7 +77,7 @@ router.put("/:id", (req, res) => {
   });
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", autenticacion, (req, res) => {
   const onSuccess = (materia) =>
     materia
       .destroy()

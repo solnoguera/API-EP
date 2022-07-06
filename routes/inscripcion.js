@@ -1,8 +1,11 @@
-var express = require("express");
-var router = express.Router();
-var models = require("../models");
+const express = require("express");
+const router = express.Router();
+const models = require("../models");
+const autenticacion = require("../middlewares/autentication");
 
-router.get("/", (req, res) => {
+router.get("/", autenticacion, (req, res) => {
+  const limit = req.query.limit;
+  const offset = req.query.offset;
   models.inscripcion
     .findAll({
       attributes: [
@@ -13,6 +16,8 @@ router.get("/", (req, res) => {
         "profesor",
         "fechaInscripcion",
       ],
+      limit: limit ? parseInt(limit) : null,
+      offset: offset ? parseInt(offset) : null,
       include: [
         {
           as: "alumno-relacionado",
@@ -39,7 +44,7 @@ router.get("/", (req, res) => {
     .catch((error) => res.sendStatus(500).send({ error }));
 });
 
-router.post("/", (req, res) => {
+router.post("/", autenticacion, (req, res) => {
   models.inscripcion
     .create({
       id_alumno: req.body.id_alumno,
@@ -82,7 +87,7 @@ const findInscripcion = (id, { onSuccess, onNotFound, onError }) => {
     .catch(() => onError());
 };
 
-router.get("/:id", (req, res) => {
+router.get("/:id", autenticacion, (req, res) => {
   findInscripcion(req.params.id, {
     onSuccess: (inscripcion) => res.send(inscripcion),
     onNotFound: () => res.sendStatus(404),
@@ -90,7 +95,7 @@ router.get("/:id", (req, res) => {
   });
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", autenticacion, (req, res) => {
   const onSuccess = (inscripcion) =>
     inscripcion
       .update(
@@ -128,7 +133,7 @@ router.put("/:id", (req, res) => {
   });
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", autenticacion, (req, res) => {
   const onSuccess = (inscripcion) =>
     inscripcion
       .destroy()
