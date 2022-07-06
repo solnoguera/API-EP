@@ -1,0 +1,743 @@
+{
+	"info": {
+		"_postman_id": "88183e9c-0306-4c08-bd61-be1370a5151d",
+		"name": "API Estrategias de Persistencia",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20748796"
+	},
+	"item": [
+		{
+			"name": "Materias",
+			"item": [
+				{
+					"name": "All Materias",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/materia?offset=0&limit=4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"materia"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Materia By ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/materia/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"materia",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Materia",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\" : \"Fisica 2\",\n    \"id_carrera\" : 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/materia",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"materia"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Materia",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\" : \"Fisica cuantica\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/materia/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"materia",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Materia",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/materia/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"materia",
+								"11"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carreras",
+			"item": [
+				{
+					"name": "All Carreras",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/carrera",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"carrera"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Carrera By ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/carrera/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"carrera",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Carrera",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\" : \"Medicina\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/carrera",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"carrera"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Carrera",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\" : \"Ingeniería Civil\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/carrera/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"carrera",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Carrera",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/carrera/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"carrera",
+								"8"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inscripciones",
+			"item": [
+				{
+					"name": "All Inscripciones",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/inscripcion",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"inscripcion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inscripción By ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/inscripcion/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"inscripcion",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Inscripcion",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\n      \"id_alumno\": 1,\n      \"id_materia\": 1,\n      \"comision\": 3245,\n      \"profesor\": \"Jirafales\",\n      \"fechaInscripcion\": \"2022-05-22 12:30:22\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/inscripcion",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"inscripcion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Inscripción",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_alumno\": 2,\n    \"id_materia\": 3,\n    \"comision\": 2222,\n    \"profesor\": \"Marcelli\",\n    \"fechaInscripcion\": \"2022-05-22 12:30:22\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/inscripcion/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"inscripcion",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Inscripcion",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/inscripcion/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"inscripcion",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Alumnos",
+			"item": [
+				{
+					"name": "All Alumnos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/alumno?offset=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"alumno"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alumno By ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/alumno/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"alumno",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Alumno",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\n      \"nombre\": \"Eug22enia\",\n      \"apellido\": \"Lopez\",\n      \"email\": \"aguu@gmail.com\",\n      \"dni\": 426456645,\n      \"id_carrera\": 3\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/alumno",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"alumno"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Alumno",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Paulo\",\n    \"apellido\": \"Londra\",\n    \"email\": \"paulitooooo@gmail.com\",\n    \"dni\": 23232323,\n    \"id_carrera\": 6\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/alumno/15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"alumno",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Alumno",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.c29sMkBnbWFpbC5jb20.YJndPRdt2_ow3-moSP2kiE1AsdOZrRi5LFO3rSqrXoU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/alumno/15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"alumno",
+								"15"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "All Usuarios (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "AdminPassword",
+								"value": "adminUserAdmin222",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/usuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Usuario (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "AdminPassword",
+								"value": "adminUserAdmin222",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Sol\",\n    \"email\": \"sol112@gmail.com\",\n    \"contraseña\": \"hola123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/usuario/registrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"usuario",
+								"registrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sol2@gmail.com\",\n    \"contraseña\": \"hola123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/usuario/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"usuario",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -21,7 +21,7 @@ router.get("/", autenticacion, (req, res) => {
     })
     .then((alumno) => res.send(alumno))
     .catch((error) => {
-      res.sendStatus(500).send({ error });
+      res.status(500).send({ error });
     });
 });
 
@@ -41,7 +41,7 @@ router.post("/", autenticacion, (req, res) => {
     )
     .catch((error) => {
       res
-        .sendStatus(500)
+        .status(500)
         .send(`Error al intentar insertar en la base de datos: ${error}`);
     });
 });
@@ -53,19 +53,20 @@ const findAlumno = (id, { onSuccess, onNotFound, onError }) => {
       where: { id },
     })
     .then((alumno) => (alumno ? onSuccess(alumno) : onNotFound()))
-    .catch(() => onError());
+    .catch((error) => onError(error));
 };
 
 router.get("/:id", autenticacion, (req, res) => {
   findAlumno(req.params.id, {
     onSuccess: (alumno) => res.send(alumno),
-    onNotFound: () => res.sendStatus(404),
-    onError: () => res.sendStatus(500),
+    onNotFound: () =>
+      res.status(404).send({ message: "No existe alumno con ese ID." }),
+    onError: (error) => res.status(500).send({ error }),
   });
 });
 
 router.put("/:id", autenticacion, (req, res) => {
-  const onSuccess = (alumno) =>
+  const onSuccess = (alumno) => {
     alumno
       .update(
         {
@@ -80,30 +81,36 @@ router.put("/:id", autenticacion, (req, res) => {
         }
       )
       .then(() => {
-        res.send({ status: "Alumno actualizado exitosamente" }).sendStatus(200);
+        res.status(200).send({ status: "Alumno actualizado exitosamente" });
       })
       .catch((error) => {
         res
-          .sendStatus(500)
+          .status(500)
           .send(`Error al intentar actualizar la base de datos: ${error}`);
       });
+  };
   findAlumno(req.params.id, {
     onSuccess,
-    onNotFound: () => res.sendStatus(404),
-    onError: () => res.sendStatus(500),
+    onNotFound: () =>
+      res.status(404).send({ message: "No existe alumno con ese ID." }),
+    onError: (error) => res.status(500).send({ error }),
   });
 });
 
 router.delete("/:id", autenticacion, (req, res) => {
-  const onSuccess = (alumno) =>
+  const onSuccess = (alumno) => {
     alumno
       .destroy()
-      .then(() => res.sendStatus(200))
-      .catch(() => res.sendStatus(500));
+      .then(() =>
+        res.status(200).send({ message: "Alumno eliminado exitosamente" })
+      )
+      .catch((error) => res.status(500).send({ error }));
+  };
   findAlumno(req.params.id, {
     onSuccess,
-    onNotFound: () => res.sendStatus(404),
-    onError: () => res.sendStatus(500),
+    onNotFound: () =>
+      res.status(404).send({ message: "No existe alumno con ese ID." }),
+    onError: (error) => res.status(500).send({ error }),
   });
 });
 

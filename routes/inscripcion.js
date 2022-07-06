@@ -38,10 +38,8 @@ router.get("/", autenticacion, (req, res) => {
         },
       ],
     })
-    .then((inscripcion) => {
-      return res.send(inscripcion);
-    })
-    .catch((error) => res.sendStatus(500).send({ error }));
+    .then((inscripcion) => res.status(200).send(inscripcion))
+    .catch((error) => res.status(500).send({ error }));
 });
 
 router.post("/", autenticacion, (req, res) => {
@@ -53,50 +51,26 @@ router.post("/", autenticacion, (req, res) => {
       profesor: req.body.profesor,
       fechaInscripcion: req.body.fechaInscripcion,
     })
-    .then((inscripcion) => {
-      res.statusCode = 201;
-      res.send({
-        status: "Inscripcion creada exitosamente",
+    .then((inscripcion) => res.status(200).send({
+        status: "Inscripción creada exitosamente",
         id: inscripcion.id,
-      });
-    })
-    .catch((error) => {
-      res.statusCode = 500;
-      res.send({
-        msg: `Error al intentar insertar en la base de datos: ${error}`,
-      });
-    });
+      }))
+    .catch((error) => res.status(500).send({
+        message: `Error al intentar insertar en la base de datos: ${error}`,
+      })
+    );
 });
-
-const findInscripcion = (id, { onSuccess, onNotFound, onError }) => {
-  models.inscripcion
-    .findOne({
-      attributes: [
-        "id",
-        "id_alumno",
-        "id_materia",
-        "comision",
-        "profesor",
-        "fechaInscripcion",
-      ],
-      where: { id },
-    })
-    .then((inscripcion) =>
-      inscripcion ? onSuccess(inscripcion) : onNotFound()
-    )
-    .catch(() => onError());
-};
 
 router.get("/:id", autenticacion, (req, res) => {
   findInscripcion(req.params.id, {
     onSuccess: (inscripcion) => res.send(inscripcion),
-    onNotFound: () => res.sendStatus(404),
-    onError: () => res.sendStatus(500),
+    onNotFound: () => res.status(404).send({ message: "No existe una inscripcion con ese ID."}),
+    onError: (error) => res.status(500).send({ error }),
   });
 });
 
 router.put("/:id", autenticacion, (req, res) => {
-  const onSuccess = (inscripcion) =>
+  const onSuccess = (inscripcion) => {
     inscripcion
       .update(
         {
@@ -116,34 +90,51 @@ router.put("/:id", autenticacion, (req, res) => {
           ],
         }
       )
-      .then(() => {
-        res
-          .send({ status: "inscripcion actualizado exitosamente" })
-          .sendStatus(200);
-      })
-      .catch((error) => {
-        res
-          .sendStatus(500)
-          .send(`Error al intentar actualizar la base de datos: ${error}`);
-      });
+      .then(() => res
+          .status(200)
+          .send({ message: "Inscripcion actualizada exitosamente."}))
+      .catch((error) => res
+          .status(500)
+          .send({ error }));
+  }
   findInscripcion(req.params.id, {
     onSuccess,
-    onNotFound: () => res.sendStatus(404),
-    onError: () => res.sendStatus(500),
+    onNotFound: () => res.status(404).send({ message: "No existe una inscripcion con ese ID."}),
+    onError: (error) => res.status(500).send({ error }),
   });
 });
 
 router.delete("/:id", autenticacion, (req, res) => {
-  const onSuccess = (inscripcion) =>
+  const onSuccess = (inscripcion) => {
     inscripcion
       .destroy()
-      .then(() => res.sendStatus(200))
-      .catch(() => res.sendStatus(500));
+      .then(() => res.status(200).send({ message: "Se ha eliminado la inscripción exitosamente." }))
+      .catch((error) => res.status(500).send({ error }));
+  }
   findInscripcion(req.params.id, {
     onSuccess,
-    onNotFound: () => res.sendStatus(404),
-    onError: () => res.sendStatus(500),
+    onNotFound: () => res.status(404).send({ message: "No existe una inscripción con ese ID." }),
+    onError: (error) => res.status(500).send({ error }),
   });
 });
+
+const findInscripcion = (id, { onSuccess, onNotFound, onError }) => {
+  models.inscripcion
+    .findOne({
+      attributes: [
+        "id",
+        "id_alumno",
+        "id_materia",
+        "comision",
+        "profesor",
+        "fechaInscripcion",
+      ],
+      where: { id },
+    })
+    .then((inscripcion) =>
+      inscripcion ? onSuccess(inscripcion) : onNotFound()
+    )
+    .catch((error) => onError(error));
+};
 
 module.exports = router;

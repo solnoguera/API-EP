@@ -13,26 +13,53 @@ router.get("/", autenticacion, (req, res) => {
       offset: offset ? parseInt(offset) : null,
     })
     .then((materia) => res.send(materia))
-    .catch((err) => {
-      res.sendStatus(500);
-      console.log(err);
-    });
+    .catch((error) => res.status(500).send({ error }));
 });
 
 router.post("/", autenticacion, (req, res) => {
   models.materia
     .create({ nombre: req.body.nombre, id_carrera: req.body.id_carrera })
     .then((materia) => res.status(201).send({ id: materia.id }))
-    .catch((error) => {
-      if (error == "SequelizeUniqueConstraintError: Validation error") {
-        res
-          .status(400)
-          .send("Bad request: existe otra materia con el mismo nombre");
-      } else {
-        console.log(`Error al intentar insertar en la base de datos: ${error}`);
-        res.sendStatus(500);
-      }
-    });
+    .catch((error) => res.status(500).send({ error }));
+});
+
+router.get("/:id", autenticacion, (req, res) => {
+  findMateria(req.params.id, {
+    onSuccess: (materia) => res.send(materia),
+    onNotFound: () =>
+      res.status(404).send({ message: "No existe materia con ese ID." }),
+    onError: (error) => res.status(500).send({ error }),
+  });
+});
+
+router.put("/:id", autenticacion, (req, res) => {
+  const onSuccess = (materia) => {
+    materia
+      .update({ nombre: req.body.nombre }, { fields: ["nombre"] })
+      .then(() =>
+        res.status(200).send({ message: "Materia actualizada exitosamente." }))
+      .catch((error) => res.status(500).send({ error }));
+  }
+  findMateria(req.params.id, {
+    onSuccess,
+    onNotFound: () =>
+      res.status(404).send({ message: "No existe materia con ese ID." }),
+    onError: (error) => res.status(500).send({ error }),
+  });
+});
+
+router.delete("/:id", autenticacion, (req, res) => {
+  const onSuccess = (materia) => {
+    materia
+      .destroy()
+      .then(() => res.status(200).send({ message: "Materia eliminada exitosamente."}))
+      .catch((error) => res.status(500).send({ error }));
+  }    
+  findMateria(req.params.id, {
+    onSuccess,
+    onNotFound: () => res.status(404).send({ message: "No existe materia con ese ID."}),
+    onError: (error) => res.status(500).send({ error }),
+  });
 });
 
 const findMateria = (id, { onSuccess, onNotFound, onError }) => {
@@ -42,52 +69,7 @@ const findMateria = (id, { onSuccess, onNotFound, onError }) => {
       where: { id },
     })
     .then((materia) => (materia ? onSuccess(materia) : onNotFound()))
-    .catch(() => onError());
+    .catch((error) => onError(error));
 };
-
-router.get("/:id", autenticacion, (req, res) => {
-  findMateria(req.params.id, {
-    onSuccess: (materia) => res.send(materia),
-    onNotFound: () => res.sendStatus(404),
-    onError: () => res.sendStatus(500),
-  });
-});
-
-router.put("/:id", autenticacion, (req, res) => {
-  const onSuccess = (materia) =>
-    materia
-      .update({ nombre: req.body.nombre }, { fields: ["nombre"] })
-      .then(() => res.sendStatus(200))
-      .catch((error) => {
-        if (error == "SequelizeUniqueConstraintError: Validation error") {
-          res
-            .status(400)
-            .send("Bad request: existe otra materia con el mismo nombre");
-        } else {
-          console.log(
-            `Error al intentar actualizar la base de datos: ${error}`
-          );
-          res.sendStatus(500);
-        }
-      });
-  findMateria(req.params.id, {
-    onSuccess,
-    onNotFound: () => res.sendStatus(404),
-    onError: () => res.sendStatus(500),
-  });
-});
-
-router.delete("/:id", autenticacion, (req, res) => {
-  const onSuccess = (materia) =>
-    materia
-      .destroy()
-      .then(() => res.sendStatus(200))
-      .catch(() => res.sendStatus(500));
-  findMateria(req.params.id, {
-    onSuccess,
-    onNotFound: () => res.sendStatus(404),
-    onError: () => res.sendStatus(500),
-  });
-});
 
 module.exports = router;

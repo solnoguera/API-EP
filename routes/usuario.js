@@ -1,17 +1,10 @@
-require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const models = require("../models");
 const authServices = require("../services/authService");
+const adminAuth = require("../middlewares/adminAuth")
 
-router.post("/registrar", (req, res) => {
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  if (req.headers.adminpassword !== adminPassword) {
-    return res.status(401).send({
-      message:
-        "Te falta el header AdminPassword o la contraseña proporcionada es incorrecta.",
-    });
-  }
+router.post("/registrar", adminAuth, (req, res) => {
   const token = authServices.generarJwt(req.body.email);
   const existeElUsuario = findUsuario(req.body.email);
 
@@ -35,18 +28,7 @@ router.post("/registrar", (req, res) => {
               token,
             })
           )
-          .catch((error) => {
-            if (error == "SequelizeUniqueConstraintError: Validation error") {
-              res
-                .status(400)
-                .send("Bad request: existe otra usuario con el mismo nombre");
-            } else {
-              console.log(
-                `Error al intentar insertar en la base de datos: ${error}`
-              );
-              res.sendStatus(500);
-            }
-          });
+          .catch((error) => res.status(500).send({ error }));
       }
     })
     .catch(() => res.sendStatus(500));
@@ -60,13 +42,11 @@ router.post("/login", async (req, res) => {
         email: req.body.email,
       },
     });
-    console.log({ usuario });
     if (usuario) {
       const claveCorrecta = authServices.compararClaves(
         req.body.contraseña,
         usuario.dataValues.contrasenia
       );
-      console.log({ claveCorrecta });
       claveCorrecta
         ? res.send({ token: usuario.dataValues.jwt })
         : res.status(400).send({ mensaje: "Clave Incorrecta" });
@@ -81,24 +61,18 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// router.get("/", async (req, res) => {
-//   try {
-//     const token = req.headers.authorization.split(" ")[1];
-//     const id = authServices.verificarJwt(token);
-//     const usuario = await models.usuario.findOne({
-//       attributes: ["id", "nombre"],
-//       where: {
-//         id,
-//       },
-//     });
-//     res.json(usuario);
-//   } catch (error) {
-//     res.status(500).json({
-//       status: "error",
-//       message: error,
-//     });
-//   }
-// });
+router.get("/", adminAuth, async (req, res) => {
+  const limit = req.query.limit;
+  const offset = req.query.offset;
+  models.usuario
+    .findAll({
+      attributes: ["nombre", "email", "contrasenia", "jwt"],
+      limit: limit ? parseInt(limit) : null,
+      offset: offset ? parseInt(offset) : null,
+    })
+    .then((usuarios) => res.status(200).send(usuarios))
+    .catch((error) => res.status(500).send({ error }));
+});
 
 const findUsuario = (email) => {
   return models.usuario.findOne({

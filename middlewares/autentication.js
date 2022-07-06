@@ -10,13 +10,10 @@ const autenticacion = async (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   try {
     const userEmail = await authServices.verificarJwt(token);
-    console.log({ userEmail });
     const user = await authServices.getByEmail(userEmail);
     if (!user) {
       return res.status(401).send({ message: "No tenes autorización" });
     }
-    req.user = user?.dataValues;
-
     next();
   } catch {
     res.status(401).send({
